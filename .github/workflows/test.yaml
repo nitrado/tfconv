@@ -1,0 +1,44 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    env:
+      GO_VERSION: "1.21"
+      GOLANGCI_LINT_VERSION: v1.54.2
+
+    steps:
+      - name: Install Go
+        if: success()
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Check out source code
+        uses: actions/checkout@v3
+
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Verify Go modules
+        run: go mod tidy && git status && git --no-pager diff && git diff-index --quiet HEAD --
+
+      - name: Run linter
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: ${{ env.GOLANGCI_LINT_VERSION }}
+          skip-pkg-cache: true
+          args: --go ${{ env.GO_VERSION }}
+
+      - name: Run tests
+        run: go test -cover -race ./...
