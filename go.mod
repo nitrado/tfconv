@@ -7,7 +7,7 @@ require (
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.29.0
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
-	k8s.io/apimachinery v0.28.2
+	k8s.io/apimachinery v0.28.4
 )
 
 require (
