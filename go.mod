@@ -3,7 +3,7 @@ module github.com/nitrado/tfconv
 go 1.21.3
 
 require (
-	github.com/ettle/strcase v0.1.1
+	github.com/ettle/strcase v0.2.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.31.0
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
