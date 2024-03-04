@@ -5,7 +5,7 @@ go 1.21.3
 require (
 	github.com/ettle/strcase v0.2.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.33.0
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
 	k8s.io/apimachinery v0.29.2
 )
