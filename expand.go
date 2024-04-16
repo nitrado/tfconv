@@ -1,6 +1,7 @@
 package tfconv
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 )
@@ -28,7 +29,7 @@ func (c *Converter) expand(a any, objVal reflect.Value) error {
 
 		m, ok := val[0].(map[string]any)
 		if !ok {
-			return fmt.Errorf("struct type requires data to be a map[string]any")
+			return errors.New("struct type requires data to be a map[string]any")
 		}
 
 		if objVal.Type().Kind() == reflect.Ptr && objVal.Type().Elem().Kind() != reflect.Struct && len(m) == 1 {
