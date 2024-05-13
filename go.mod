@@ -1,13 +1,14 @@
 module github.com/nitrado/tfconv
 
 go 1.21.3
+toolchain go1.22.2
 
 require (
 	github.com/ettle/strcase v0.2.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.33.0
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/exp v0.0.0-20240409090435-93d18d7e34b8
-	k8s.io/apimachinery v0.29.3
+	k8s.io/apimachinery v0.30.0
 )
 
 require (
@@ -38,7 +39,7 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/zclconf/go-cty v1.14.2 // indirect
-	golang.org/x/sys v0.17.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
