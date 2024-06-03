@@ -36,6 +36,9 @@ func TestConverter_Expand(t *testing.T) {
 		"map": map[string]any{
 			"foo": 4,
 		},
+		"map_convert": map[string]any{
+			"foo": "bar",
+		},
 		"struct": []any{map[string]any{
 			"a": "test-ptr-t",
 			"b": []any{map[string]any{
@@ -61,6 +64,9 @@ func TestConverter_Expand(t *testing.T) {
 		},
 		Map: map[string]int{
 			"foo": 4,
+		},
+		MapConvert: map[likeAString]string{
+			"foo": "bar",
 		},
 		Struct: &T{
 			A: "test-ptr-t",

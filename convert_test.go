@@ -5,16 +5,19 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 )
 
+type likeAString string
+
 type TestObject struct {
-	Str    string            `json:"str"`
-	Alias  StrAlias          `json:"alias"`
-	Int    int               `json:"int"`
-	Float  float64           `json:"float,omitempty"`
-	Bool   bool              `json:"bool"`
-	Slice  []T               `json:"slice"`
-	Map    map[string]int    `json:"map"`
-	Struct *T                `json:"struct"`
-	Q      resource.Quantity `json:"q"`
+	Str        string                 `json:"str"`
+	Alias      StrAlias               `json:"alias"`
+	Int        int                    `json:"int"`
+	Float      float64                `json:"float,omitempty"`
+	Bool       bool                   `json:"bool"`
+	Slice      []T                    `json:"slice"`
+	Map        map[string]int         `json:"map"`
+	MapConvert map[likeAString]string `json:"mapConvert"`
+	Struct     *T                     `json:"struct"`
+	Q          resource.Quantity      `json:"q"`
 }
 
 type T struct {
@@ -47,6 +50,11 @@ func testObjectSchema() map[string]*schema.Schema {
 			Type:     schema.TypeMap,
 			Optional: true,
 			Elem:     &schema.Schema{Type: schema.TypeInt},
+		},
+		"map_convert": {
+			Type:     schema.TypeMap,
+			Optional: true,
+			Elem:     &schema.Schema{Type: schema.TypeString},
 		},
 		"q": {
 			Type:     schema.TypeString,

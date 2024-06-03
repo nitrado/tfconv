@@ -115,12 +115,22 @@ func (c *Converter) expandMap(m map[string]any, objVal reflect.Value) error {
 	}
 
 	for k, v := range m {
+		keyVal := reflect.ValueOf(k)
+		switch {
+		case keyVal.Type() == t.Key():
+		case keyVal.Type().AssignableTo(t.Key()):
+		case keyVal.Type().ConvertibleTo(t.Key()):
+			keyVal = keyVal.Convert(t.Key())
+		default:
+			return fmt.Errorf("key type %s not assignable to map key type %s", keyVal.Type(), t.Key())
+		}
+
 		val := reflect.New(t.Elem()).Elem()
 		if err := c.expand(v, val); err != nil {
 			return err
 		}
 
-		objVal.SetMapIndex(reflect.ValueOf(k), val)
+		objVal.SetMapIndex(keyVal, val)
 	}
 	return nil
 }
