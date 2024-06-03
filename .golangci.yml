@@ -23,18 +23,10 @@ linters-settings:
 linters:
   enable-all: true
   disable:
-    - interfacer # deprecated
-    - scopelint # deprecated
-    - maligned # deprecated
-    - golint # deprecated
+    - execinquery # deprecated
     - gocyclo # duplicate of cyclop
-    - structcheck # deprecated
-    - ifshort # deprecated
-    - varcheck # deprecated
-    - deadcode # deprecated
-    - nosnakecase # deprecated
-    - exhaustivestruct # deprecated
     - depguard
+    - err113
     - exhaustive
     - exhaustruct
     - forcetypeassert
@@ -42,7 +34,6 @@ linters:
     - gochecknoglobals
     - gochecknoinits
     - godox
-    - goerr113
     - gomnd
     - gomoddirectives
     - ireturn

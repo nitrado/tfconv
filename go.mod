@@ -1,15 +1,13 @@
 module github.com/nitrado/tfconv
 
-go 1.22.0
-
-toolchain go1.22.3
+go 1.21
 
 require (
 	github.com/ettle/strcase v0.2.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.34.0
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/exp v0.0.0-20240409090435-93d18d7e34b8
-	k8s.io/apimachinery v0.30.1
+	k8s.io/apimachinery v0.29.5
 )
 
 require (
