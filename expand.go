@@ -32,10 +32,13 @@ func (c *Converter) expand(a any, objVal reflect.Value) error {
 			return errors.New("struct type requires data to be a map[string]any")
 		}
 
-		if objVal.Type().Kind() == reflect.Ptr && objVal.Type().Elem().Kind() != reflect.Struct && len(m) == 1 {
-			// This is a pointer value struct, unwrap it.
-			if v, ok := m["value"]; ok {
-				return c.expandPrimitive(v, objVal)
+		if objVal.Type().Kind() == reflect.Ptr && len(m) == 1 {
+			_, hasConversion := c.conversions[objVal.Type().Elem()]
+			if objVal.Type().Elem().Kind() != reflect.Struct || hasConversion {
+				// This is a pointer value struct, unwrap it.
+				if v, ok := m["value"]; ok {
+					return c.expandPrimitive(v, objVal)
+				}
 			}
 		}
 

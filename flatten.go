@@ -21,12 +21,15 @@ func (c *Converter) flatten(v reflect.Value, s *schema.Schema) (any, error) {
 	case s.Type == schema.TypeList && s.MaxItems == 1 && isResource(s.Elem):
 		res := s.Elem.(*schema.Resource)
 
-		if v.Type().Kind() == reflect.Ptr && v.Type().Elem().Kind() != reflect.Struct {
-			val, err := c.flattenPrimitive(v, res.Schema["value"])
-			if err != nil {
-				return nil, err
+		if v.Type().Kind() == reflect.Ptr {
+			_, hasConversion := c.conversions[v.Type().Elem()]
+			if v.Type().Elem().Kind() != reflect.Struct || hasConversion {
+				val, err := c.flattenPrimitive(v, res.Schema["value"])
+				if err != nil {
+					return nil, err
+				}
+				return []any{map[string]any{"value": val}}, nil
 			}
-			return []any{map[string]any{"value": val}}, nil
 		}
 
 		return c.flattenStruct(v, res.Schema)

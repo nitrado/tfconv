@@ -39,7 +39,8 @@ func TestConverter_Flatten(t *testing.T) {
 			B: newInt(16),
 			C: nil,
 		},
-		Q: resource.MustParse("205m"),
+		Q:    resource.MustParse("205m"),
+		QPtr: ptrOf(resource.MustParse("2Mi")),
 	}
 
 	got, err := c.Flatten(obj, testObjectSchema())
@@ -69,6 +70,9 @@ func TestConverter_Flatten(t *testing.T) {
 			}},
 		}},
 		"q": "205m",
+		"q_ptr": []any{map[string]any{
+			"value": "2Mi",
+		}},
 	}}
 	assert.Equal(t, want, got)
 }

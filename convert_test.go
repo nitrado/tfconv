@@ -18,6 +18,7 @@ type TestObject struct {
 	MapConvert map[likeAString]string `json:"mapConvert"`
 	Struct     *T                     `json:"struct"`
 	Q          resource.Quantity      `json:"q"`
+	QPtr       *resource.Quantity     `json:"qPtr"`
 }
 
 type T struct {
@@ -59,6 +60,17 @@ func testObjectSchema() map[string]*schema.Schema {
 		"q": {
 			Type:     schema.TypeString,
 			Optional: true,
+		},
+		"q_ptr": {
+			Type:     schema.TypeList,
+			MaxItems: 1,
+			Optional: true,
+			Elem: &schema.Resource{Schema: map[string]*schema.Schema{
+				"value": {
+					Type:     schema.TypeString,
+					Required: true,
+				},
+			}},
 		},
 		"slice": {
 			Type:     schema.TypeList,
@@ -112,4 +124,8 @@ func testObjectSchema() map[string]*schema.Schema {
 			},
 		},
 	}
+}
+
+func ptrOf[T any](v T) *T {
+	return &v
 }
