@@ -24,6 +24,7 @@ linters:
   enable-all: true
   disable:
     - execinquery # deprecated
+    - exportloopref # deprecated
     - gocyclo # duplicate of cyclop
     - depguard
     - err113
