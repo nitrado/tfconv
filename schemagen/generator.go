@@ -64,7 +64,7 @@ func (g *Generator) Struct(obj any) (map[string]string, error) {
 	}
 
 	fields := make(map[string]string, typ.NumField())
-	for i := 0; i < typ.NumField(); i++ {
+	for i := range typ.NumField() {
 		sf := typ.Field(i)
 
 		name := g.ResolveName(sf)

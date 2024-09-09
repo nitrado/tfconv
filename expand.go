@@ -72,7 +72,7 @@ func (c *Converter) expandStruct(m map[string]any, objVal reflect.Value) error {
 		return fmt.Errorf("expected struct, got %s", t.String())
 	}
 
-	for i := 0; i < t.NumField(); i++ {
+	for i := range t.NumField() {
 		sf := t.Field(i)
 		name := c.resolveName(sf)
 

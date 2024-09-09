@@ -65,7 +65,7 @@ func (c *Converter) flattenSlice(v reflect.Value, s *schema.Schema) (any, error)
 	}
 
 	d := make([]any, v.Len())
-	for i := 0; i < v.Len(); i++ {
+	for i := range v.Len() {
 		a, err := c.flatten(v.Index(i), elemS)
 		if err != nil {
 			return nil, err
@@ -115,7 +115,7 @@ func (c *Converter) flattenStruct(v reflect.Value, s map[string]*schema.Schema) 
 	}
 
 	d := make(map[string]any, t.NumField())
-	for i := 0; i < t.NumField(); i++ {
+	for i := range t.NumField() {
 		sf := t.Field(i)
 		name := c.resolveName(sf)
 
@@ -167,6 +167,7 @@ func (c *Converter) flattenPrimitive(v reflect.Value, s *schema.Schema) (any, er
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			return int(v.Int()), nil
 		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			//nolint:gosec // I see no way around this.
 			return int(v.Uint()), nil
 		}
 	case schema.TypeFloat:
