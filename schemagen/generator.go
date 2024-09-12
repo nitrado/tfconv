@@ -55,7 +55,7 @@ func NewWithName(docsFn DocsFunc, customizerFn CustomizerFunc, nameFn NameFunc, 
 		}
 	}
 	if nameFn == nil {
-		nameFn = func(name string) string { return strcase.ToSnake(name) }
+		nameFn = strcase.ToSnake
 	}
 
 	return &Generator{
