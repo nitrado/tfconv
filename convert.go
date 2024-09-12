@@ -15,7 +15,7 @@ type conversion struct {
 	flatten ConverterFn
 }
 
-// NameFunc is a function used to determine a field name.
+// NameFunc is a function used to define a field name.
 type NameFunc = func(name string) string
 
 // Converter converts Terraform formatted data to and from
