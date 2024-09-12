@@ -23,6 +23,9 @@ type DocsFunc = func(obj any, sf reflect.StructField) string
 // if the field should be skipped.
 type CustomizerFunc = func(obj any, sf *reflect.StructField, typ reflect.Type, s *schema.Schema) (string, reflect.Kind, bool)
 
+// NameFunc is a function used to determine a field name.
+type NameFunc = func(name string) string
+
 var errSkip = errors.New("skip")
 
 // Generator generates Terraform schemas.
@@ -30,10 +33,16 @@ type Generator struct {
 	docsFn       DocsFunc
 	customizerFn CustomizerFunc
 	tag          string
+	nameFn       NameFunc
 }
 
 // New returns a schema generator.
 func New(docsFn DocsFunc, customizerFn CustomizerFunc, tag string) *Generator {
+	return NewWithName(docsFn, customizerFn, nil, tag)
+}
+
+// NewWithName returns a schema generator with the given nameFn.
+func NewWithName(docsFn DocsFunc, customizerFn CustomizerFunc, nameFn NameFunc, tag string) *Generator {
 	if tag == "" {
 		tag = "json"
 	}
@@ -45,10 +54,14 @@ func New(docsFn DocsFunc, customizerFn CustomizerFunc, tag string) *Generator {
 			return "", typ.Kind(), true
 		}
 	}
+	if nameFn == nil {
+		nameFn = func(name string) string { return strcase.ToSnake(name) }
+	}
 
 	return &Generator{
 		docsFn:       docsFn,
 		customizerFn: customizerFn,
+		nameFn:       nameFn,
 		tag:          tag,
 	}
 }
@@ -78,7 +91,8 @@ func (g *Generator) Struct(obj any) (map[string]string, error) {
 			}
 		}
 
-		fields[strcase.ToSnake(name)] = code
+		fieldName := g.nameFn(name)
+		fields[fieldName] = code
 	}
 	return fields, nil
 }

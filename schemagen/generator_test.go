@@ -4,6 +4,7 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/ettle/strcase"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/nitrado/tfconv/schemagen"
 	"github.com/stretchr/testify/assert"
@@ -18,6 +19,30 @@ func TestGenerator_Struct(t *testing.T) {
 	require.NoError(t, err)
 	want := map[string]string{
 		"float":    "{\nType: schema.TypeFloat,\n}",
+		"int":      "{\nType: schema.TypeInt,\n}",
+		"str":      "{\nType: schema.TypeString,\n}",
+		"bool":     "{\nType: schema.TypeBool,\n}",
+		"ptr_bool": "{\nType: schema.TypeList,\nMaxItems: 1,\nElem: &schema.Resource{\nSchema: map[string]*schema.Schema{\n\"value\": {\nType: schema.TypeBool,\nRequired: true,\n},\n},\n},\n}",
+		"slice":    "{\nType: schema.TypeList,\nElem: &schema.Resource{\nSchema: map[string]*schema.Schema{\n\"a\": {\nType: schema.TypeString,\n},\n},\n},\n}",
+		"map":      "{\nType: schema.TypeMap,\nElem: &schema.Schema{Type: schema.TypeInt,},\n}",
+		"struct":   "{\nType: schema.TypeList,\nMaxItems: 1,\nElem: &schema.Resource{\nSchema: map[string]*schema.Schema{\n\"a\": {\nType: schema.TypeString,\n},\n},\n},\n}",
+	}
+	assert.Equal(t, want, got)
+}
+
+func TestGenerator_StructWithName(t *testing.T) {
+	gen := schemagen.NewWithName(nil, nil, func(name string) string {
+		if name == "float" {
+			return "other"
+		}
+		return strcase.ToSnake(name)
+	}, "")
+
+	got, err := gen.Struct(&TestObject{})
+
+	require.NoError(t, err)
+	want := map[string]string{
+		"other":    "{\nType: schema.TypeFloat,\n}",
 		"int":      "{\nType: schema.TypeInt,\n}",
 		"str":      "{\nType: schema.TypeString,\n}",
 		"bool":     "{\nType: schema.TypeBool,\n}",
