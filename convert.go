@@ -15,23 +15,36 @@ type conversion struct {
 	flatten ConverterFn
 }
 
+// NameFunc is a function used to determine a field name.
+type NameFunc = func(name string) string
+
 // Converter converts Terraform formatted data to and from
 // object types.
 type Converter struct {
 	tag string
 
 	conversions map[reflect.Type]conversion
+	nameFn      NameFunc
 }
 
 // New returns a new converter.
 func New(tag string) *Converter {
+	return NewWithName(nil, tag)
+}
+
+// NewWithName returns a new converter with the give nameFn.
+func NewWithName(nameFn NameFunc, tag string) *Converter {
 	if tag == "" {
 		tag = "json"
+	}
+	if nameFn == nil {
+		nameFn = strcase.ToSnake
 	}
 
 	return &Converter{
 		tag:         tag,
 		conversions: map[reflect.Type]conversion{},
+		nameFn:      nameFn,
 	}
 }
 
@@ -50,7 +63,7 @@ func (c *Converter) resolveName(sf reflect.StructField) string {
 		jsonName = name
 	}
 	if jsonName != "" && jsonName != "-" {
-		return strcase.ToSnake(jsonName)
+		return c.nameFn(jsonName)
 	}
-	return strcase.ToSnake(sf.Name)
+	return c.nameFn(sf.Name)
 }
