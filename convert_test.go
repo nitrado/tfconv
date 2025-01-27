@@ -8,17 +8,18 @@ import (
 type likeAString string
 
 type TestObject struct {
-	Str        string                 `json:"str"`
-	Alias      StrAlias               `json:"alias"`
-	Int        int                    `json:"int"`
-	Float      float64                `json:"float,omitempty"`
-	Bool       bool                   `json:"bool"`
-	Slice      []T                    `json:"slice"`
-	Map        map[string]int         `json:"map"`
-	MapConvert map[likeAString]string `json:"mapConvert"`
-	Struct     *T                     `json:"struct"`
-	Q          resource.Quantity      `json:"q"`
-	QPtr       *resource.Quantity     `json:"qPtr"`
+	Str         string                 `json:"str"`
+	Alias       StrAlias               `json:"alias"`
+	Int         int                    `json:"int"`
+	Float       float64                `json:"float,omitempty"`
+	Bool        bool                   `json:"bool"`
+	Slice       []T                    `json:"slice"`
+	StringSlice []string               `json:"stringSlice"`
+	Map         map[string]int         `json:"map"`
+	MapConvert  map[likeAString]string `json:"mapConvert"`
+	Struct      *T                     `json:"struct"`
+	Q           resource.Quantity      `json:"q"`
+	QPtr        *resource.Quantity     `json:"qPtr"`
 }
 
 type T struct {
@@ -83,6 +84,11 @@ func testObjectSchema() map[string]*schema.Schema {
 					},
 				},
 			},
+		},
+		"string_slice": {
+			Type:     schema.TypeList,
+			Optional: true,
+			Elem:     &schema.Schema{Type: schema.TypeString},
 		},
 		"str": {
 			Type:     schema.TypeString,

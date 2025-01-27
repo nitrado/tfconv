@@ -139,6 +139,11 @@ func (c *Converter) expandMap(m map[string]any, objVal reflect.Value) error {
 }
 
 func (c *Converter) expandPrimitive(v any, objVal reflect.Value) error {
+	if v == nil {
+		// There is nothing to set. `nil` is treated at the default value.
+		return nil
+	}
+
 	if objVal.Type().Kind() == reflect.Ptr {
 		if objVal.IsNil() {
 			objVal.Set(reflect.New(objVal.Type().Elem()))
