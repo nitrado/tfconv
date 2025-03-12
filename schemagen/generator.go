@@ -5,14 +5,15 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"maps"
 	"reflect"
+	"slices"
 	"sort"
 	"strings"
 	"text/template"
 
 	"github.com/ettle/strcase"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"golang.org/x/exp/maps"
 )
 
 // DocsFunc is a function that returns the documentation for a struct field.
@@ -150,7 +151,7 @@ func (g *Generator) genField(name string, obj any, sf *reflect.StructField, typ 
 				return "", err
 			}
 
-			fieldNames := maps.Keys(fields)
+			fieldNames := slices.Collect(maps.Keys(fields))
 			sort.Strings(fieldNames)
 			for _, fieldName := range fieldNames {
 				elem += fmt.Sprintf("%q: %s,\n", fieldName, fields[fieldName])
