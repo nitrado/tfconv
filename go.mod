@@ -6,7 +6,6 @@ require (
 	github.com/ettle/strcase v0.2.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.36.1
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
 	k8s.io/apimachinery v0.32.3
 )
 
