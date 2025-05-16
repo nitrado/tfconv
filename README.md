@@ -28,7 +28,7 @@ go get github.com/nitrado/tfconv
 
 ## Usage
 
-Examples can be found in the [godoc](https://pkg.go.dev/badge/github.com/nitrado/tfconv).
+Examples can be found in the [godoc](https://pkg.go.dev/github.com/nitrado/tfconv).
 
 ## License
 
